@@ -1,22 +1,26 @@
 import {Model} from './Model';
 import {Firebase} from '../util/Firebase';
+import {Format} from '../util/Format';
 
 export class Message extends Model {
     constructor() {
         super();
     }
 
-    get content() {return this.content;}
-    set content(value) {return this.content = value;}
+    get id() {return this._data.id;}
+    set id(value) {return this._data.id = value;}
 
-    get type() {return this.type;}
-    set type(value) {return this.type = value;}
+    get content() {return this._data.content;}
+    set content(value) {return this._data.content = value;}
 
-    get timeStamp() {return this.timeStamp;}
-    set timeStamp(value) {return this.timeStamp = value;}
+    get type() {return this._data.type;}
+    set type(value) {return this._data.type = value;}
 
-    get status() {return this.status;}
-    set status(value) {return this.status = value;}
+    get timeStamp() {return this._data.timeStamp;}
+    set timeStamp(value) {return this._data.timeStamp = value;}
+
+    get status() {return this._data.status;}
+    set status(value) {return this._data.status = value;}
 
     getViewElement(me = true) {
         let div = document.createElement('div');
@@ -266,16 +270,16 @@ export class Message extends Model {
 
             default:
                 div.innerHTML = `
-                <div class="font-style _3DFk6 tail">
+                <div class="font-style _3DFk6 tail" id="_${this.id}">
                     <span class="tail-container"></span>
                     <span class="tail-container highlight"></span>
                     <div class="Tkt2p">
                         <div class="_3zb-j ZhF0n">
-                            <span dir="ltr" class="selectable-text invisible-space message-text">Oi!</span>
+                            <span dir="ltr" class="selectable-text invisible-space message-text">${this.content}</span>
                         </div>
                         <div class="_2f-RV">
                             <div class="_1DZAH">
-                                <span class="msg-time">11:33</span>
+                                <span class="msg-time">${Format.timeStampToTime(this.timeStamp)}</span>
                             </div>
                         </div>
                     </div>
