@@ -116,7 +116,7 @@ export class Message extends Model {
                                 </div>
                             </div>
                             <div class="_1lC8v">
-                                <div dir="ltr" class="_3gkvk selectable-text invisible-space copyable-text">Nome do Contato Anexado</div>
+                                <div dir="ltr" class="_3gkvk selectable-text invisible-space copyable-text">${this.content.name}</div>
                             </div>
                             <div class="_3a5-b">
                                 <div class="_1DZAH" role="button">
@@ -133,6 +133,15 @@ export class Message extends Model {
 
                 </div>
                 `;
+        if(this.content.photo) {
+            let img = div.querySelector('.photo-contact-sended');
+            img.src = this.content.photo;
+            img.show();
+        }
+
+        div.querySelector('.btn-message-send').on('click', e => {
+            console.log('Enviar mensagem');
+        })
         break;
 
       case "image":
@@ -191,7 +200,7 @@ export class Message extends Model {
 
       case "document":
         div.innerHTML = `
-        <div class="_3_7SH _1ZPgd" id="_${this.id}">
+        <div class="_3_7SH _1ZPgd">
             <div class="_1fnMt _2CORf">
                 <a class="_1vKRe" href="#">
                     <div class="_2jTyA" style="background-image: url(${this.preview})"></div>
@@ -323,7 +332,7 @@ export class Message extends Model {
 
       default:
         div.innerHTML = `
-                <div class="font-style _3DFk6 tail" id="_${this.id}">
+                <div class="font-style _3DFk6 tail">
                     <span class="tail-container"></span>
                     <span class="tail-container highlight"></span>
                     <div class="Tkt2p">
@@ -370,6 +379,10 @@ export class Message extends Model {
             s(uploadTask.snapshot)
         });
     });
+  }
+
+  static sendContact(chatId, from, contact) {
+    return Message.send(chatId, from, 'contact', contact);
   }
 
   static sendDocument(chatId, from, file, filePreview, info) {
